@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import router from './routes/router.js'
 import Movie from "./models/movie.js";
 import cors from 'cors'
+import dotenv from 'dotenv'
+dotenv.config()
 
 main().then(() => console.log('Connected to the Database'))
     .catch(err => console.log('OHNO ERROR!', err));
