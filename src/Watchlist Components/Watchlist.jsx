@@ -1,7 +1,7 @@
 export default function Watchlist() {
     return (
-        <section className="text-white flex justify-center items-center text-center max-w-full">
-            <h1 className="text-center">Watch list page</h1>
+        <section className="ml-14 mt- text-white flex text-center max-w-full">
+            <h1 className="text-3xl font-rubik font-semibold tracking-wider">Watchlist</h1>
         </section>
     )
 }

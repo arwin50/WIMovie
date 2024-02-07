@@ -35,7 +35,6 @@ export default function Home() {
 
     useEffect(() => {
         getRecommendedMovies();
-        console.log('SHUFFLED!')
     }
         , [isShuffled]);
 
