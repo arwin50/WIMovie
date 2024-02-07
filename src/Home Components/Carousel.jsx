@@ -1,21 +1,29 @@
-import { useState } from "react"
+import { useEffect } from "react"
 import { ChevronLeft, ChevronRight } from "react-feather"
 
-export default function Carousel({ slides }) {
-    const [currIndex, setCurrIndex] = useState(0)
-    const prevSlide = () =>
-        setCurrIndex((currIndex) => currIndex === 0 ? slides.length - 1 : currIndex - 1)
+const imageUrl = "https://image.tmdb.org/t/p/original"
 
-    const nextSlide = () =>
-        setCurrIndex((currIndex) => currIndex === slides.length - 1 ? 0 : currIndex + 1)
+export default function Carousel({ slides, autoSlide = false, autoSlideInterval = 3000, currIndex, prevSlide, nextSlide }) {
 
+    useEffect(() => {
+        if (!autoSlide) return
+        const slideInterval = setInterval(nextSlide, autoSlideInterval)
+        return () => clearInterval(slideInterval)
+    }, [])
     return (
-        <div className="max-w-full md:max-w-2xl flex overflow-hidden relative md:ml-14">
+        <div className="min-w-screen max-w-full lg:max-w-3xl flex overflow-x-hidden relative lg:ml-14 flex-shrink-0 z-0 ">
             {slides.map((slide, index) => {
-                return <div key={index} className="flex-shrink-0 w-full h-full transition-transform ease-out duration-500"
+                return <><div key={index} className="flex-shrink-0 w-full h-full transition-transform ease-out duration-500"
                     style={{ transform: `translateX(-${currIndex * 100}%)` }}>
-                    <img src={slide} className="w-full h-full object-cover" /></div>
-            })}``
+                    <img src={`${imageUrl}/${slide.backdrop_path}`} className="w-full h-full object-cover" /></div>
+                    {currIndex === index &&
+                        <div className="flex flex-row absolute bottom-0 left-0 right-0 p-4 text-white text-xl font-bold bg-black bg-opacity-50 transition-opacity"><p className="tracking-wider">{slide.name}</p>
+                            <p className="ml-auto font-semibold text-lg tracking-wide">Rated: {Math.floor(slide.vote_average)}/10</p>
+                        </div>}
+
+                </>
+            })}
+
             < div className="absolute inset-0 flex items-center justify-between p-2" >
                 <button onClick={prevSlide} className="p-1 rounded shadow bg-white/70 text-grey-800 hover:bg-white ">
                     <ChevronLeft size={35} />
@@ -24,6 +32,7 @@ export default function Carousel({ slides }) {
                     <ChevronRight size={35} />
                 </button>
             </div >
+
         </div >
     )
 }

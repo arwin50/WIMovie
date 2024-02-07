@@ -1,17 +1,64 @@
 import Carousel from './Carousel'
 import DetailedMovieSection from './DetailedMovieSection'
-
-const slides = ["https://images.unsplash.com/photo-1526779259212-939e64788e3c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGZyZWUlMjBpbWFnZXN8ZW58MHx8MHx8fDA%3D",
-    "https://images.unsplash.com/photo-1585020430145-2a6b034f7729?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGZyZWUlMjBpbWFnZXN8ZW58MHx8MHx8fDA%3D"]
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import ShuffleButton from './ShuffleButton'
 
 
 export default function Home() {
+    const [slides, setSlides] = useState([])
+    const [currIndex, setCurrIndex] = useState(0)
+    const [isShuffled, setIsShuffled] = useState(false)
+
+    const getRandNum = () => {
+        return Math.floor(Math.random() * 20) + 1;
+    }
+
+    const getRecommendedMovies = async () => {
+
+        let rand1 = getRandNum();
+        while (rand1 < 3) {
+            rand1 = getRandNum();
+        }
+        try {
+            const response = await axios.get(
+                "https://api.themoviedb.org/3/tv/top_rated?api_key=7bf5ed7233aef31fbfb393a85985d9c2&language=en-US&page=1"
+            );
+
+            const recommendations = response.data.results.slice(rand1 - 3, rand1);
+            setSlides(recommendations)
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        getRecommendedMovies();
+        console.log('SHUFFLED!')
+    }
+        , [isShuffled]);
+
+    const prevSlide = () =>
+        setCurrIndex((currIndex) => currIndex === 0 ? 3 - 1 : currIndex - 1)
+
+    const nextSlide = () =>
+        setCurrIndex((currIndex) => currIndex === 2 ? 0 : currIndex + 1)
+
+    const toggleShuffle = () => {
+        console.log(isShuffled)
+        setIsShuffled(!isShuffled)
+
+    }
+
     return (
-        <main>
-            <section className='flex flex-col md:flex-row  justify-center items-center columns-2 md:space-x-8 md:mt-4'>
-                <Carousel slides={slides} />
+        <main className="flex flex-col ">
+            <section className='flex flex-col lg:flex-row  justify-center items-center columns-2 lg:space-x-8 lg:mt-2 w-full'>
+                <Carousel slides={slides} autoSlide={true} currIndex={currIndex} prevSlide={prevSlide} nextSlide={nextSlide} />
                 <DetailedMovieSection slides={slides} />
+            </section>
+            <section className="place-self-center mb-2">
+                <ShuffleButton toggleShuffle={toggleShuffle} />
             </section>
         </main>
 

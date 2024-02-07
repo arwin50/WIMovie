@@ -5,15 +5,12 @@ import Login from './Login Components/Login'
 import Watchlist from './Watchlist Components/Watchlist'
 import Register from './Register Components/Register'
 import Navbar from "./Navbar"
-import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 
 const HeaderLayout = () => (
   <>
-    <header>
-      <Navbar />
-    </header>
+    <Navbar />
     <Outlet />
   </>
 );
