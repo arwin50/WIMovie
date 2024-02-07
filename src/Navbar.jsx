@@ -19,6 +19,7 @@ export default function Navbar() {
                 <ul className={`lg:flex lg:ml-auto lg:space-x-12 lg:mr-16 max-[1024px]:bg-neutral-900/85 max-[1024px]:w-36 
                 max-[1024px]:py-3 max-[1024px]:pl-4 transition-all duration-300 ease-in lg:right-0  
                 absolute z-[-1] lg:z-50 max-[1024px]:right-0 mr-6    ${isOpen ? 'max-[1024px]:top-14' : 'max-[1024px]:top-[-200px]'}`}>
+                    <li className="hover:text-amber-300"><Link to="/movies">Movies</Link></li>
                     <li className="hover:text-amber-300"><Link to="/watchlist">Watch List</Link></li>
                     <li className="hover:text-amber-300"><Link to="/login">Login</Link></li>
                     <li className="hover:text-amber-300"><Link to="/signup">Sign Up</Link></li>

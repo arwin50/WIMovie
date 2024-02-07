@@ -7,6 +7,7 @@ import Register from './Register Components/Register'
 import Navbar from "./Navbar"
 import './index.css'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
+import MoviePage from './Movie Page Components/MoviePage'
 
 const HeaderLayout = () => (
   <>
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />
+      },
+      {
+        path: '/movies',
+        element: <MoviePage />
       },
       {
         path: '/watchlist',

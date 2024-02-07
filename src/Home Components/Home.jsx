@@ -5,6 +5,7 @@ import axios from 'axios'
 import ShuffleButton from './ShuffleButton'
 
 
+
 export default function Home() {
     const [slides, setSlides] = useState([])
     const [currIndex, setCurrIndex] = useState(0)
@@ -22,7 +23,7 @@ export default function Home() {
         }
         try {
             const response = await axios.get(
-                "https://api.themoviedb.org/3/tv/top_rated?api_key=7bf5ed7233aef31fbfb393a85985d9c2&language=en-US&page=1"
+                `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_TMDB_API}&language=en-US&page=1`
             );
 
             const recommendations = response.data.results.slice(rand1 - 3, rand1);
