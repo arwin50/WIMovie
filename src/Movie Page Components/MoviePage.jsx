@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
 import axios from 'axios';
+import Movie from "./Movies";
 
-const imageUrl = "https://image.tmdb.org/t/p/original"
+
 
 export default function MoviePage() {
     const [movies, setMovies] = useState([])
+    const [formData, setFormData] = useState("")
     useEffect(() => {
         const fetchMovies = async () => {
             try {
@@ -18,18 +20,35 @@ export default function MoviePage() {
 
         fetchMovies();
     }, [])
+
+    const handleSubmit = (evt) => {
+        evt.preventDefault()
+
+    }
+
+    const inputChange = async (evt) => {
+        setFormData(evt.target.value)
+        try {
+            const response = await axios.get(`http://localhost:5000/movies`, { params: { name: formData } });
+            setMovies(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
-        <section className="flex flex-col mt-2 justify-center">
-            <div className="text-white text-center">
-                <p>Search Movie</p>
-            </div>
-            <div className="grid grid-rows-2 grid-flow-col gap-5 gap-y-14 mt-4" >
-                {movies.map((movie) => {
-                    return <div key={movie._id} className="w-32 h-44 flex flex-col border-2 border-white"><img className="w-full h-full" src={`${imageUrl}/${movie.posterPath}`} />
-                        <p className="text-white text-xs text-center font-rubik mt-2">{movie.name}</p>
-                    </div>
-                })}
-            </div>
-        </section>
+        <section className="flex flex-col mt-2 justify-center space-y-6">
+            <h1 className="text-3xl text-white text-center mt-6 font-semibold font-rubik">Search Movies</h1>
+            <form onSubmit={handleSubmit} className=" text-center ">
+                <input
+                    type="text"
+                    placeholder="Enter keywords..."
+                    className="w-[40%] p-2 border-2 rounded text-center mb-1"
+                    value={formData}
+                    name="movie"
+                    id="movie"
+                    onChange={inputChange} />
+            </form>
+            <Movie movies={movies} />
+        </section >
     )
 }
