@@ -4,6 +4,10 @@ const imageUrl = "https://image.tmdb.org/t/p/original"
 
 export default function DetailedMovie({ slide, index }) {
 
+    const AddToWatchlist = () => {
+        
+    }
+
     return <div key={index} className="max-w-[30rem] max-[470px]:w-full h-36 mb-2 flex flex-row ">
         <img src={`${imageUrl}/${slide.poster_path}`} className="max-w-24 max-[470px]:max-w-20 h-full max-[470px]:h-5/6 object-cover max-[470px]:mt-2 " />
         <div className="ml-4 flex flex-col text-white ">
